@@ -105,124 +105,200 @@ CREATE TABLE Table_Name (
 
 **Question 1**
 --
--- Paste Question 1 here
+In the Student_details table, insert a student record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
+
+| RollNo | Name            | Gender | Subject      | Marks |
+|--------|-----------------|--------|--------------|-------|
+| 205    | Olivia Green    | F      |              |       |
+| 207    | Liam Smith      | M      | Mathematics  | 85    |
+| 208    | Sophia Johnson  | F      | Science      |       |
 
 ```sql
--- Paste your SQL code below for Question 1
+Insert into Student_details values(205, "Olivia Green", 'F', null, null);
+Insert into Student_details values(207, "Liam Smith", 'M', "Mathematics", 85);
+Insert into Student_details values(208, "Sophia Johnson", 'F', "Science", null);
 ```
 
 **Output:**
 
-![Output1](output.png)
+<img width="1691" height="521" alt="image" src="https://github.com/user-attachments/assets/ffa0010c-3b6d-4b52-9b2f-886234a0eb6a" />
 
 **Question 2**
 ---
--- Paste Question 2 here
+Insert all students from Archived_students table into the Student_details table.
+
+| cid | name    | type          | notnull | dflt_value | pk |
+|-----|---------|---------------|---------|------------|----|
+| 0   | RollNo  | INT           | 0       |            | 1  |
+| 1   | Name    | VARCHAR(100)  | 0       |            | 0  |
+| 2   | Gender  | VARCHAR(10)   | 0       |            | 0  |
+| 3   | Subject | VARCHAR(50)   | 0       |            | 0  |
+| 4   | MARKS   | INT           | 0       |            | 0  |
 
 ```sql
--- Paste your SQL code below for Question 2
+Insert into student_details Select * from Archived_students;
 ```
 
 **Output:**
 
-![Output2](output.png)
+<img width="1608" height="495" alt="image" src="https://github.com/user-attachments/assets/21fd1d19-035f-4270-9c16-5b225b0f5165" />
 
 **Question 3**
 ---
--- Paste Question 3 here
+Create a new table named item with the following specifications and constraints:
+item_id as TEXT and as primary key.
+item_desc as TEXT.
+rate as INTEGER.
+icom_id as TEXT with a length of 4.
+icom_id is a foreign key referencing com_id in the company table.
+The foreign key should cascade updates and deletes.
+item_desc and rate should not accept NULL.
 
 ```sql
--- Paste your SQL code below for Question 3
+Create table item(
+    item_id TEXT PRIMARY KEY,
+    item_desc TEXT not null,
+    rate INTEGER not null,
+    icom_id TEXT CHECK(length(icom_id) >= 4),
+    foreign key (icom_id) references company(com_id) on update cascade on delete cascade
+);
 ```
 
 **Output:**
 
-![Output3](output.png)
+<img width="1604" height="578" alt="image" src="https://github.com/user-attachments/assets/c1c6052e-2616-4eed-8624-6db1becac01d" />
 
 **Question 4**
 ---
--- Paste Question 4 here
+Create a table named Attendance with the following constraints:
+  AttendanceID as INTEGER should be the primary key.
+  EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+  AttendanceDate as DATE.
+  Status as TEXT should be one of 'Present', 'Absent', 'Leave'.
 
 ```sql
--- Paste your SQL code below for Question 4
+create table Attendance(
+    AttendanceID INTEGER PRIMARY KEY,
+    EmployeeID INTEGER,
+    AttendanceDate  DATE,
+        Status TEXT CHECK(Status IN ('Present', 'Absent', 'Leave')),
+        FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
 ```
 
 **Output:**
 
-![Output4](output.png)
+<img width="1606" height="483" alt="image" src="https://github.com/user-attachments/assets/3ed04652-8967-4659-b41c-8ab6bbc0d461" />
 
 **Question 5**
 ---
--- Paste Question 5 here
+Write an SQL query to add a new column email of type TEXT to the Student_details table, and ensure that this column cannot contain NULL values and make default value as 'Invalid'
 
 ```sql
--- Paste your SQL code below for Question 5
+alter table Student_details add column email TEXT not null default 'Invalid';
 ```
 
 **Output:**
 
-![Output5](output.png)
+<img width="1608" height="429" alt="image" src="https://github.com/user-attachments/assets/3cb8e3da-ee0b-489f-b511-44a67d4d18a1" />
 
 **Question 6**
 ---
--- Paste Question 6 here
+Create a table named Employees with the following constraints:
+  EmployeeID should be the primary key.
+  FirstName and LastName should be NOT NULL.
+  Email should be unique.
+  Salary should be greater than 0.
+  DepartmentID should be a foreign key referencing the Departments table.
 
 ```sql
--- Paste your SQL code below for Question 6
+create table Employees(
+    EmployeeID int PRIMARY KEY,
+    FirstName TEXT not null,
+    LastName TEXT not null,
+    Email TEXT unique,
+    Salary int check(Salary > 0),
+    DepartmentID int,
+    Foreign key (DepartmentID) references Departments(DepartmentID)
+);
 ```
 
 **Output:**
 
-![Output6](output.png)
+<img width="1607" height="679" alt="image" src="https://github.com/user-attachments/assets/e77af0c6-3191-4142-8df6-9ddd63466fc5" />
 
 **Question 7**
 ---
--- Paste Question 7 here
+Create a table named Invoices with the following constraints:
+  InvoiceID as INTEGER should be the primary key.
+  InvoiceDate as DATE.
+  DueDate as DATE should be greater than the InvoiceDate.
+  Amount as REAL should be greater than 0.
 
 ```sql
--- Paste your SQL code below for Question 7
+create table Invoices(
+    InvoiceID  Integer PRIMARY KEY,
+    InvoiceDate DATE,
+    DueDate DATE CHECK(DueDate > InvoiceDate),
+    Amount REAL CHECK(Amount > 0)
+);
 ```
 
 **Output:**
 
-![Output7](output.png)
+<img width="1608" height="486" alt="image" src="https://github.com/user-attachments/assets/51536a0b-d91c-46de-bddc-e8de1b913e79" />
 
 **Question 8**
 ---
--- Paste Question 8 here
+Write an SQL query to add two new columns, department_id and manager_id, to the table employee with datatype of INTEGER. The manager_id column should have a default value of NULL.
 
 ```sql
--- Paste your SQL code below for Question 8
+alter table employee add column department_id INTEGER;
+alter table employee add column manager_id INTEGER default NULL;
 ```
 
 **Output:**
 
-![Output8](output.png)
+<img width="1602" height="525" alt="image" src="https://github.com/user-attachments/assets/812cb35c-fd50-4a20-9fd4-e9049f8e4ce3" />
 
 **Question 9**
 ---
--- Paste Question 9 here
+Insert a book with ISBN 978-1234567890, Title Data Science Essentials, Author Jane Doe, Publisher TechBooks, and Year 2024 into the Books table.
 
 ```sql
--- Paste your SQL code below for Question 9
+Insert into Books values(
+     "978-1234567890",
+     "Data Science Essentials",
+     "Jane Doe",
+     "TechBooks",
+     2024
+);
 ```
 
 **Output:**
 
-![Output9](output.png)
+<img width="1611" height="429" alt="image" src="https://github.com/user-attachments/assets/8eef4b6e-9ab0-4186-b82a-d7f9bad4d76a" />
 
 **Question 10**
 ---
--- Paste Question 10 here
+Create a table named Customers with the following columns:
+  CustomerID as INTEGER
+  Name as TEXT
+  Email as TEXT
+  JoinDate as DATETIME
 
 ```sql
--- Paste your SQL code below for Question 10
+create table Customers(
+    CustomerID INTEGER,
+    Name TEXT,
+    Email TEXT,
+    JoinDate DATETIME
+);
 ```
 
 **Output:**
 
-![Output10](output.png)
-
+<img width="1608" height="644" alt="image" src="https://github.com/user-attachments/assets/bb2084f0-d00e-4170-a003-5cc669ecbfab" />
 
 ## RESULT
 Thus, the SQL queries to implement different types of constraints and DDL commands have been executed successfully.
